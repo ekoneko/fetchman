@@ -1,0 +1,22 @@
+{
+  "name": "fetchman",
+  "version": "1.0.0",
+  "description": "HTTP接口调试命令行工具",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^1.6.3"
+  },
+  "devDependencies": {
+    "koa": "^2.2.0",
+    "koa-router": "^7.1.0",
+    "mocha": "^3.2.0"
+  }
+}
