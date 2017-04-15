@@ -1,7 +1,8 @@
-const request = require('../../lib/request')
+const request = require('../lib/request')
+const {createApp, getBaseUrl} = require('./utils/createApp')
 
-const port = process.env.PORT || 3000;
-const baseUrl = `http://localhost:${port}`;
+createApp()
+const baseUrl = getBaseUrl()
 
 it('simple request', done => {
   request({

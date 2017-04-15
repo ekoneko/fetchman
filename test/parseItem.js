@@ -1,14 +1,16 @@
 const fs = require('fs');
 const path = require('path');
-const parseItem = require('../../lib/parseItem')
-const request = require('../../lib/request')
+const parseItem = require('../lib/parseItem')
+const request = require('../lib/request')
+const {createApp, getBaseUrl} = require('./utils/createApp')
 
-const port = process.env.PORT || 3000;
-const baseUrl = `http://localhost:${port}`;
-const pathName = path.resolve(__dirname, '../project/simple.item');
+createApp()
+const baseUrl = getBaseUrl()
+
+const pathName = path.resolve(__dirname, './project/simple.item');
 const text = fs.readFileSync(pathName).toString();
 
-const commonPath = path.resolve(__dirname, '../project/.fetchman');
+const commonPath = path.resolve(__dirname, './project/.fetchman');
 const commonText = fs.readFileSync(commonPath).toString();
 
 it('parse item file', done => {
