@@ -7,7 +7,10 @@ it('simple request', done => {
   request({
     baseUrl,
     path: '/simple',
-    query: 'a=1&b=2',
+    query: {
+      a: 1,
+      b: 2,
+    },
     method: 'GET',
     headers: {"X-test": "test"}
   }).then(res => {
