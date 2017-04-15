@@ -3,7 +3,6 @@ path: /simple
 query: a=1&b=2
 query: c=3
 headers: X-test=test
-headers: X-test2=test2
 body:
 test body
 line2

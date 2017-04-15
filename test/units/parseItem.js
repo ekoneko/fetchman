@@ -1,9 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const parseItem = require('../../lib/parseItem')
+const request = require('../../lib/request')
 
+const port = process.env.PORT || 3000;
+const baseUrl = `http://localhost:${port}`;
 const pathName = path.resolve(__dirname, '../project/simple.item');
 const text = fs.readFileSync(pathName).toString();
+
+const commonPath = path.resolve(__dirname, '../project/.fetchman');
+const commonText = fs.readFileSync(commonPath).toString();
 
 it('parse item file', done => {
   const params = parseItem(text);
@@ -13,7 +19,11 @@ it('parse item file', done => {
   if (params.path !== '/simple') {
     return done(new Error('path not match'));
   }
-  if (params.query !== 'a=1&b=2&c=3') {
+  if (typeof params.query !== 'object' ||
+      params.query.a !== '1' ||
+      params.query.b !== '2' ||
+      params.query.c !== '3'
+  ) {
     return done(new Error('query not match'));
   }
   if (params.headers['X-test'] !== 'test') {
@@ -23,4 +33,37 @@ it('parse item file', done => {
     return done(new Error('body not match'));
   }
   done()
+})
+
+const paramsWithCommon = parseItem(commonText + text)
+it('with common config', done => {
+  const params = paramsWithCommon;
+  if (typeof params.query !== 'object' ||
+      params.query.a !== '1' ||
+      params.query.d !== '4'
+  ) {
+    return done(new Error('query not match'));
+  }
+  if (params.headers['X-test'] !== 'test' ||
+      params.headers['X-test2'] !== 'test2'
+  ) {
+    return done(new Error('headers not match'));
+  }
+  done();
+})
+
+it('request from file', done => {
+  request(Object.assign({
+    baseUrl,
+  }, paramsWithCommon)).then(res => {
+    if (res.status !== 200) {
+      throw new Error('status not 200')
+    }
+    const body = JSON.parse(res.body);
+    if (body.a === '1' && body.d === '4') {
+      done();
+    } else {
+      throw new Error('response is not excepted');
+    }
+  })
 })
