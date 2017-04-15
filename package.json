@@ -12,7 +12,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "node-fetch": "^1.6.3"
+    "cookie": "^0.3.1",
+    "node-fetch": "^1.6.3",
+    "set-cookie-parser": "^2.0.0"
   },
   "devDependencies": {
     "koa": "^2.2.0",
