@@ -54,18 +54,16 @@ it('with common config', done => {
   done();
 })
 
-it('request from file', done => {
-  request(Object.assign({
+it('request from file', async () => {
+  const res = await request(Object.assign({
     baseUrl,
-  }, paramsWithCommon)).then(res => {
-    if (res.status !== 200) {
-      throw new Error('status not 200')
-    }
-    const body = JSON.parse(res.body);
-    if (body.a === '1' && body.d === '4') {
-      done();
-    } else {
-      throw new Error('response is not excepted');
-    }
-  })
+  }, paramsWithCommon))
+
+  if (res.status !== 200) {
+    throw new Error('status not 200')
+  }
+  const body = JSON.parse(res.body);
+  if (body.a !== '1' || body.d !== '4') {
+    throw new Error('response is not excepted');
+  }
 })
