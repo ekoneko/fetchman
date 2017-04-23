@@ -19,7 +19,7 @@ switch (cli.input[0]) {
     break
   case 'request':
   case 'rq':
-    fetchman.request(cli.input[1])
+    fetchman.request(cli.input[1], cli.flags)
     break
   default:
     cli.showHelp()

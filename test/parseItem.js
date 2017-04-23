@@ -2,15 +2,18 @@ const fs = require('fs');
 const path = require('path');
 const parseItem = require('../lib/parseItem')
 const request = require('../lib/request')
+const fetchman = require('../lib/fetchman')
 const {createApp, getBaseUrl} = require('./utils/createApp')
 
 createApp()
 const baseUrl = getBaseUrl()
 
-const pathName = path.resolve(__dirname, './project/simple.item');
+const projectPath = path.resolve(__dirname, './project');
+const itemName = 'simple.item';
+const pathName = path.resolve(projectPath, itemName);
 const text = fs.readFileSync(pathName).toString();
 
-const commonPath = path.resolve(__dirname, './project/.fetchman');
+const commonPath = path.resolve(projectPath, '.fetchman');
 const commonText = fs.readFileSync(commonPath).toString();
 
 it('parse item file', done => {
@@ -54,16 +57,37 @@ it('with common config', done => {
   done();
 })
 
-it('request from file', async () => {
-  const res = await request(Object.assign({
+it('request from file and return body', async () => {
+  const res = await fetchman(itemName, {}, projectPath, {
     baseUrl,
-  }, paramsWithCommon))
-
-  if (res.status !== 200) {
-    throw new Error('status not 200')
+  })
+  if (res[0] !== '{') {
+    throw new Error('response not body')
   }
-  const body = JSON.parse(res.body);
-  if (body.a !== '1' || body.d !== '4') {
-    throw new Error('response is not excepted');
+})
+
+it('request from file and return head', async () => {
+  const res = await fetchman(itemName, {I: true}, projectPath, {
+    baseUrl,
+  })
+  if (!res.includes('HTTP 200 OK')) {
+    throw new Error('response not expect head')
+  }
+
+  if (res.includes('{')) {
+    throw new Error('should not response body')
+  }
+})
+
+it('request from file and return head and body', async () => {
+  const res = await fetchman(itemName, {i: true}, projectPath, {
+    baseUrl,
+  })
+  if (!res.includes('HTTP 200 OK')) {
+    throw new Error('response not expect head')
+  }
+
+  if (!res.includes('{')) {
+    throw new Error('not response body')
   }
 })
