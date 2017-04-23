@@ -1,0 +1,13 @@
+# A request options file
+# Example:
+#
+# method: GET | POST | PUT | etc
+# path: /path/to
+# query: a=1&b=2
+# or query in another line: c=3
+# headers: X-test=test
+# body:
+# http post data
+# multiple line
+# use double `$` to ensure body end
+# $$
