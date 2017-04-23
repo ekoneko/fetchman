@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+const meow = require('meow');
+const fetchman = require('../index')
+
+const cli = meow(`
+    Usage
+      fetchman create\t\tcreate a project directory
+      fetchman new\t\tcreate a request file
+      fetchman request\t\tparse a  request file and send request
+`);
+
+switch (cli.input[0]) {
+  case 'create':
+    fetchman.createProject(cli.input[1])
+    break
+  case 'new':
+    fetchman.createItem(cli.input[1])
+    break
+  case 'request':
+  case 'rq':
+    fetchman.request(cli.input[1])
+    break
+  default:
+    cli.showHelp()
+}

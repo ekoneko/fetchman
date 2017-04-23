@@ -1,0 +1,6 @@
+###
+# This is a project common configure file.
+# All request options will combined in every request, and it'll be replaced by any others.
+# Example:
+#   headers: accept=application/json
+###
