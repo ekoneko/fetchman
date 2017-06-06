@@ -10,7 +10,7 @@ module.exports = {
     createItem(itemName)
   },
   request: async function (itemName, flags) {
-    const output = fetchman(itemName, flags)
+    const output = await fetchman(itemName, flags)
     process.stdout.write(output)
   },
 }
